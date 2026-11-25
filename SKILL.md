@@ -1,5 +1,5 @@
 ---
-name: xxtcolorpicker-format
+name: xxtcolorpicker-customformat
 description: 为 XXTColorPicker（XXT 取色器）设计、编写或修改可导入的自定义格式 Lua 脚本。适用于按目标样例定制点色文本、生成代码、设置项和结果行交互、图片二值化预览、在格式中调用 Java，以及排查格式已加载但输出不符的问题。普通设备端 XXTouch 自动化脚本由相应的设备脚本工作流处理。
 ---
 

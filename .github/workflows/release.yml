@@ -22,17 +22,17 @@ jobs:
           java-version: '8'
       - name: Package and test the installed skill
         run: |
-          git archive --format=zip --prefix=xxtcolorpicker-format/ -o "$RUNNER_TEMP/xxtcolorpicker-format.zip" HEAD
-          unzip -q "$RUNNER_TEMP/xxtcolorpicker-format.zip" -d "$RUNNER_TEMP/install"
-          cd "$RUNNER_TEMP/install/xxtcolorpicker-format"
-          grep -Fx 'name: xxtcolorpicker-format' SKILL.md
+          git archive --format=zip --prefix=xxtcolorpicker-customformat/ -o "$RUNNER_TEMP/xxtcolorpicker-customformat.zip" HEAD
+          unzip -q "$RUNNER_TEMP/xxtcolorpicker-customformat.zip" -d "$RUNNER_TEMP/install"
+          cd "$RUNNER_TEMP/install/xxtcolorpicker-customformat"
+          grep -Fx 'name: xxtcolorpicker-customformat' SKILL.md
           python3 tools/test_cli.py
       - name: Save the tested ZIP
         if: startsWith(github.ref, 'refs/tags/v')
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: tested-skill
-          path: ${{ runner.temp }}/xxtcolorpicker-format.zip
+          path: ${{ runner.temp }}/xxtcolorpicker-customformat.zip
           if-no-files-found: error
           retention-days: 3
 
@@ -55,7 +55,7 @@ jobs:
           GH_REPO: ${{ github.repository }}
           TAG: ${{ github.ref_name }}
         run: |
-          asset=xxtcolorpicker-format.zip
+          asset=xxtcolorpicker-customformat.zip
           if info=$(gh release view "$TAG" --json isDraft,assets); then
             if jq -e '.isDraft == false' <<< "$info" >/dev/null; then
               jq -e --arg name "$asset" 'any(.assets[]; .name == $name and .state == "uploaded")' <<< "$info"
