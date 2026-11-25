@@ -5,6 +5,8 @@ import subprocess
 import tempfile
 from pathlib import Path
 
+from test_images import verify_images
+
 skill = Path(__file__).resolve().parents[1]
 parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument("--host", help="auto, application directory, or a compatible application JAR")
@@ -70,3 +72,6 @@ with tempfile.TemporaryDirectory(prefix="format-cli-test-") as temp:
     if args.host:
         run("check", sample, "--case", cases, "--host", args.host)
     print("Empty and relative coordinates, settings, hover, clipboard, multi-column output, dynamic menu and double-click passed")
+
+    verify_images(work, cli, args.host)
+    print("Threshold, Otsu, color offset, foreground polarity and all three similarity algorithms passed")

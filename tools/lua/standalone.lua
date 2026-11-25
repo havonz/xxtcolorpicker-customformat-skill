@@ -1,4 +1,4 @@
-return function(source, file, moduleName, fixture, compat, audit, report, classExists, absolutePath)
+return function(source, file, moduleName, fixture, compat, audit, report, classExists, absolutePath, images)
   local clipboard=""
   local function point(x,y,c)
     return {x,y,c,x=x,y=y,c=c,r=math.floor(c/65536),g=math.floor(c/256)%256,b=c%256,undef=false}
@@ -31,6 +31,8 @@ return function(source, file, moduleName, fixture, compat, audit, report, classE
     setmetatable=setmetatable,getmetatable=getmetatable,rawget=rawget,rawset=rawset,
     rawlen=rawlen,rawequal=rawequal,math=math,table=table,string=string,bit32=bit32,coroutine=coroutine,
     os={date=os.date,time=os.time,difftime=os.difftime,clock=os.clock},_VERSION=_VERSION}
+  env.thresholdImageData=images.thresholdImageData
+  env.binaryzationImageData=images.binaryzationImageData
   env._G=env
   env.TR=function(s) return s end
   env.copyText=function(s) clipboard=s end

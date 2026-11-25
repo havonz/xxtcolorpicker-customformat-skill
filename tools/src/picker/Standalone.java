@@ -36,7 +36,8 @@ public class Standalone {
                 },
                 new OneArgFunction() {
                     public LuaValue call(LuaValue path) { return valueOf(new java.io.File(path.checkjstring()).getAbsolutePath()); }
-                }
+                },
+                ImageData.functions()
             });
         } catch(Throwable e) { record(r,e); }
         PickerFormat.saveReport(PickerFormat.report(r));

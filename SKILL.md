@@ -1,6 +1,6 @@
 ---
 name: xxtcolorpicker-format
-description: 为 XXTColorPicker（XXT 取色器）设计、编写或修改可导入的自定义格式 Lua 脚本。适用于按目标样例定制点色文本、生成代码、设置项和结果行交互，以及排查格式已加载但输出不符的问题。普通设备端 XXTouch 自动化脚本由相应的设备脚本工作流处理。
+description: 为 XXTColorPicker（XXT 取色器）设计、编写或修改可导入的自定义格式 Lua 脚本。适用于按目标样例定制点色文本、生成代码、设置项和结果行交互、图片二值化预览、在格式中调用 Java，以及排查格式已加载但输出不符的问题。普通设备端 XXTouch 自动化脚本由相应的设备脚本工作流处理。
 ---
 
 # XXTColorPicker 自定义格式设计
@@ -28,6 +28,8 @@ java -jar picker-format.jar check "/目标目录/我的点阵.lua"
 - 模块返回 `{name = "...", formats = {...}}`。保留带 `title`、`args` 的 `settingsRule` 和显式返回字符串的 `multiPosFormatRule`。按数字键取色走这条逐点规则，剪贴板直接拼接返回值。
 - 点击「生成代码」走 `makeScriptRules`。需要访问首点时先处理空列表。目标输出要求相对坐标时再计算偏移。第一条规则返回字符串会自动复制，返回数组则显示多列。
 - 编写或解释回调时，查阅[逐项回调手册](references/format-api.md)。其中包含真实调用时机、参数、返回值、默认动作和当前宿主没有调用入口的旧字段。
+
+图像预览用 `thresholdImageData`（固定阈值或 Otsu）或 `binaryzationImageData`（色偏或颜色相似度）。桌面回调可通过 `Java.class`、`Java.new` 调用 Java 方法。需要相关功能时，先读[图像接口与 Java 调用](references/image-and-java.md)，其中包含参数、实现和内建格式的阅读索引。生成点阵或找色代码可参考 [X_Y_Color.lua](references/builtin/X_Y_Color.lua)，生成 OCR 二值化参数或双击预览可参考 [XXT-Bin-Dict.lua](references/builtin/XXT-Bin-Dict.lua)。
 
 ## 用实际数据验收
 
