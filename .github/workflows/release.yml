@@ -1,0 +1,68 @@
+name: Check and release skill
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+    tags: ['v*']
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@d1374f8ac74474200d16ef8ecee22c7ae7a51880 # v6.3.0
+        with:
+          distribution: temurin
+          java-version: '8'
+      - name: Package and test the installed skill
+        run: |
+          git archive --format=zip --prefix=xxtcolorpicker-format/ -o "$RUNNER_TEMP/xxtcolorpicker-format.zip" HEAD
+          unzip -q "$RUNNER_TEMP/xxtcolorpicker-format.zip" -d "$RUNNER_TEMP/install"
+          cd "$RUNNER_TEMP/install/xxtcolorpicker-format"
+          grep -Fx 'name: xxtcolorpicker-format' SKILL.md
+          python3 tools/test_cli.py
+      - name: Save the tested ZIP
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: tested-skill
+          path: ${{ runner.temp }}/xxtcolorpicker-format.zip
+          if-no-files-found: error
+          retention-days: 3
+
+  release:
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: check
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    concurrency:
+      group: release-${{ github.ref }}
+      cancel-in-progress: false
+    steps:
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: tested-skill
+      - name: Publish the ZIP on GitHub Releases
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          TAG: ${{ github.ref_name }}
+        run: |
+          asset=xxtcolorpicker-format.zip
+          if info=$(gh release view "$TAG" --json isDraft,assets); then
+            if jq -e '.isDraft == false' <<< "$info" >/dev/null; then
+              jq -e --arg name "$asset" 'any(.assets[]; .name == $name and .state == "uploaded")' <<< "$info"
+              exit 0
+            fi
+          else
+            gh release create "$TAG" --verify-tag --draft --title "$TAG" --generate-notes
+          fi
+          gh release upload "$TAG" "$asset" --clobber
+          gh release edit "$TAG" --draft=false

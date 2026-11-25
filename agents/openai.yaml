@@ -1,0 +1,4 @@
+interface:
+  display_name: "XXTColorPicker 自定义格式设计"
+  short_description: "按目标输出样例设计、编写和验证可导入取色器的 Lua 自定义格式脚本"
+  default_prompt: "使用 $xxtcolorpicker-format 帮我把取色点转换成所需的输出格式，并生成可导入的 Lua 脚本。"

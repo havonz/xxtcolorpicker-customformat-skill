@@ -1,0 +1,24 @@
+[
+  {
+    "name":"空列表", "points":[],
+    "expect":{"picked":[],"pickClipboard":"","rows":[["{}"],["点数","0"]],"generateClipboard":"{}"}
+  },
+  {
+    "name":"负偏移、前导零、两列和结果行交互",
+    "points":[[100,50,"0x00000A"],[97,55,"0xFF00AB"]],
+    "regions":{"a":[8,12],"s":[80,120]}, "hover":[97,55,"0xFF00AB"],
+    "actions":[{"type":"menu","row":2,"item":1},{"type":"doubleClick","row":2}],
+    "expect":{
+      "picked":["{100, 50, 0x00000A},","{97, 55, 0xFF00AB},"],
+      "pickClipboard":"{100, 50, 0x00000A},\n{97, 55, 0xFF00AB},\n",
+      "rows":[["{{100, 50, 0x00000A}, {-3, 5, 0xFF00AB}}"],["点数","2"]],
+      "generateClipboard":"{{100, 50, 0x00000A}, {-3, 5, 0xFF00AB}}",
+      "hoverBottom":"97, 55","hoverZoom":"#FF00AB","menus":[["复制点数 2"]],
+      "afterRows":[["{{100, 50, 0x00000A}, {-3, 5, 0xFF00AB}}"],["2 个点"]],"clipboard":"点数=2"
+    }
+  },
+  {
+    "name":"切换为绝对坐标","points":[[100,50,10],[97,55,16711851]],"settings":{"使用相对偏移":false},
+    "expect":{"generateClipboard":"{{100, 50, 0x00000A}, {97, 55, 0xFF00AB}}"}
+  }
+]
