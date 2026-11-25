@@ -18,6 +18,8 @@
 
 拿到 `.lua` 文件后，在取色器中右键点击「自定格式」→「从资源管理器查看」，将文件放入打开的 `scripts/colorpicker/customformats/` 目录。再次右键点击「自定格式」→「重新加载自定格式列表」，在下拉列表中选中新格式，即可取色或生成代码。
 
+取色槽文本、旁边的色块和下方生成结果行有不同的双击行为。可以按位置查阅[画布与右侧面板操作指南](references/picker-interactions.md)。
+
 ## 编写自己的格式
 
 - 想改点色文本或生成多点找色代码，可从[点色列表示例](assets/point-list.lua)起步，或查看内建的 [X, Y, Color](references/builtin/X_Y_Color.lua)。

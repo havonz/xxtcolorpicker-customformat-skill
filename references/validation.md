@@ -36,7 +36,7 @@ java -jar picker-format.jar check examples/relative-points.lua --case examples/r
 - `picked` 是取色槽文本数组，`pickClipboard` 是逐点规则拼接后的剪贴板。用例按宿主「导入点列表、重建剪贴板」的路径填充。
 - `rows` 是生成时的行列数组，`generateClipboard` 是刚生成时的剪贴板。短行按其实际内容报告，省略右侧空列。
 - `menus` 记录每次打开菜单时从上到下的项目名称。`afterRows` 和 `clipboard` 是全部指定操作后的结果。
-- `hoverBottom` 与 `hoverZoom` 记录脚本显式提供的两种悬停文本。
+- `hoverBottom` 与 `hoverZoom` 分别记录脚本显式提供的画布下方状态栏文本和右侧面板顶部信息行文本。
 - `executed` 记录实际调用的规则，结合 `errors` 和 `unverified` 判断是否完成。`notRun` 标出该样例没有触发的已知规则。动态菜单的项只有求值后才能枚举。
 - 退出码 0 表示本次执行的检查通过，1 表示脚本、用例或断言失败，2 表示存在未验证项。独立模式能验证纯 Lua 运算、模拟剪贴板和样例寄存器。独立模式中 `TR` 返回原文。涉及本地化控件键时，用宿主模式再核对当前语言。脚本提供图像字节时，独立模式可运行 `thresholdImageData` 和 `binaryzationImageData`。当前画布的像素、特定 Java 界面、文件对话框、外部模块或设备动作需要相应宿主条件。缺少条件时保留未验证项。宿主模式遇到等待输入的窗口会记录标题；需要人选择文件或操作设备的效果另行验证。
 

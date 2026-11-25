@@ -1,6 +1,6 @@
 # XXTColorPicker 格式模块与回调
 
-适用于包含「重新加载自定格式列表」的桌面版。下述调用依据取色器源码提交 `0d6f60f` 中的 `src/scripts/main.lua`、`colorpicker/init/customformats.lua` 和 `colorpicker/init/callbacks.lua`。本页的行号参数均从 1 开始。
+适用于包含「重新加载自定格式列表」的桌面版。下述调用依据取色器源码提交 `0d6f60f` 中的 `src/scripts/main.lua`、`colorpicker/init/customformats.lua` 和 `colorpicker/init/callbacks.lua`。本页的行号参数均从 1 开始。需要辨认控件或区分画布、色块和结果行的手势时，见[画布与右侧面板操作指南](picker-interactions.md)。
 
 ## 模块与设置
 
@@ -33,7 +33,7 @@
 | --- | --- | --- |
 | `multiPosFormatRule(p, a, s, x, c, set)` 格式化一个点 | 数字键取色、点列表导入、移动或重取色点，以及重建取色剪贴板时都会调用。一次操作可能对同一点调用多次。 | 返回字符串。槽中显示时去掉首尾空白，复制全部点时直接拼接各次返回值。需要换行就在返回值中加入 `"\n"`。当前备用函数缺少 `return`，自定义模块应显式实现。例如 `return string.format("%d,%d,0x%06X\n", p.x, p.y, p.c)`。 |
 | `mouseTrackInfoBottomRule(p)` 显示底部状态栏 | 光标跟踪事件，传当前点这**一个**参数。 | 返回状态栏字符串，例如 `return string.format("X=%d Y=%d", p.x, p.y)`。省略时使用内置坐标及颜色显示。 |
-| `mouseTrackInfoZoomRule(p)` 显示放大镜文字 | 与状态栏同一事件，单独调用，同样只传当前点。 | 返回放大镜旁的字符串，例如 `return string.format("#%06X", p.c)`。省略时用内置显示。 |
+| `mouseTrackInfoZoomRule(p)` 显示右侧面板顶部的光标信息 | 与状态栏同一事件，单独调用，同样只传当前点。 | 返回右侧面板最上方信息行的字符串，例如 `return string.format("#%06X", p.c)`。省略时用内置显示。 |
 
 ## 生成与结果行交互
 
